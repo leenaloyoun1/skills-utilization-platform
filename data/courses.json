@@ -1,0 +1,97 @@
+[
+  {
+    "id": 1,
+    "title": "Python Programming Fundamentals",
+    "description": "Learn Python programming fundamentals including variables, functions, data structures, modules, and object-oriented programming.",
+    "skills": [
+      "Python"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "SQL and Database Design",
+    "description": "Learn SQL queries, relational database concepts, table relationships, joins, normalization, and database design.",
+    "skills": [
+      "SQL",
+      "Database Design"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Backend Development with FastAPI",
+    "description": "Build backend applications and REST APIs using Python, FastAPI, request validation, authentication, and database integration.",
+    "skills": [
+      "Python",
+      "Backend Development",
+      "API Development",
+      "FastAPI"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Machine Learning Foundations",
+    "description": "Understand supervised learning, unsupervised learning, feature engineering, model training, and machine learning evaluation.",
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Data Science"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Natural Language Processing",
+    "description": "Learn natural language processing, text preprocessing, language models, embeddings, text classification, and semantic search.",
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "Natural Language Processing"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Deep Learning and Neural Networks",
+    "description": "Explore deep learning, neural networks, model optimization, computer vision, and modern artificial intelligence techniques.",
+    "skills": [
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Deep Learning",
+      "Python"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Data Analysis with Python",
+    "description": "Analyze and visualize data using Python, NumPy, data cleaning, statistical analysis, and practical analytics techniques.",
+    "skills": [
+      "Python",
+      "Data Analysis",
+      "Data Science"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Git and GitHub Essentials",
+    "description": "Learn version control using Git, GitHub repositories, branches, commits, merging, collaboration, and pull requests.",
+    "skills": [
+      "Git",
+      "GitHub"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Docker for Backend Developers",
+    "description": "Learn Docker containers, images, Dockerfiles, containerized backend applications, and deployment workflows.",
+    "skills": [
+      "Docker",
+      "Backend Development"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Cloud Computing Fundamentals",
+    "description": "Understand cloud computing, cloud services, deployment, scalability, storage, networking, and cloud application architecture.",
+    "skills": [
+      "Cloud Computing"
+    ]
+  }
+]
