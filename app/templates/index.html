@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CourseMatch AI</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="{{ url_for('static', filename='favicon.ico') }}"
+    >
+</head>
+<body>
+    <header class="navbar">
+        <h1>CourseMatch AI</h1>
+
+        <span class="tag">
+            AI Course Recommendation Engine
+        </span>
+    </header>
+
+    <main class="container">
+
+        <section class="card">
+
+            <h2>Generate Recommendations</h2>
+
+            <form
+                class="recommendation-form"
+                method="POST"
+                action="recommend"
+            >
+
+                <label>
+                    Recommendation Method
+                </label>
+
+                <select
+                    id="input_type"
+                    name="input_type"
+                >
+                    <option value="text">
+                        Describe Interests
+                    </option>
+
+                    <option value="user_id">
+                        Existing User ID
+                    </option>
+                </select>
+
+                <div id="text-field">
+
+                    <label>
+                        Skills / Interests
+                    </label>
+
+                    <textarea
+                        name="text"
+                        rows="5"
+                        placeholder="I want to learn AI and backend development."
+                    >{{ text or "" }}</textarea>
+
+                </div>
+
+                <div
+                    id="user-id-field"
+                    style="display:none;"
+                >
+
+                    <label>
+                        User ID
+                    </label>
+
+                    <input
+                        name="user_id"
+                        type="number"
+                        min="1"
+                        value="{{ user_id or '' }}"
+                    >
+
+                </div>
+
+                <label>
+                    Top Recommendations
+                </label>
+
+                <input
+                    name="top_n"
+                    type="number"
+                    min="1"
+                    max="10"
+                    value="{{ top_n or 3 }}"
+                >
+
+                <button type="submit">
+                    Generate Recommendations
+                </button>
+
+            </form>
+
+            {% if error_message %}
+            <div class="error-box">
+                {{ error_message }}
+            </div>
+            {% endif %}
+
+        </section>
+
+        {% if extracted_skills %}
+
+        <section class="card">
+
+            <h2>Identified Skills</h2>
+
+            <div class="skills">
+
+                {% for skill in extracted_skills %}
+                <span class="skill-chip">
+                    {{ skill }}
+                </span>
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+        <section class="card">
+
+            <h2>Recommended Courses</h2>
+
+            <div class="course-grid">
+
+                {% for course in recommendations %}
+
+                <div class="course-card">
+
+                    <h3>{{ course.title }}</h3>
+
+                    <p>
+                        Match Score:
+                        {{ (course.similarity_score * 100)|round(1) }}%
+                    </p>
+
+                    <p>
+                        {{ course.explanation }}
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+    </main>
+
+    <script>
+
+        const inputType =
+            document.getElementById("input_type");
+
+        const textField =
+            document.getElementById("text-field");
+
+        const userField =
+            document.getElementById("user-id-field");
+
+        function updateFields() {
+
+            const useUser =
+                inputType.value === "user_id";
+
+            textField.style.display =
+                useUser ? "none" : "block";
+
+            userField.style.display =
+                useUser ? "block" : "none";
+        }
+
+        inputType.addEventListener(
+            "change",
+            updateFields
+        );
+
+        updateFields();
+
+    </script>
+
+</body>
+</html>
