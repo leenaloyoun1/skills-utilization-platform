@@ -9,6 +9,9 @@ from app.services.database_recommendation_service import (
 from app.services.text_recommendation_service import (
     recommend_from_text,
 )
+from app.services.workflow_service import (
+    run_workflow,
+)
 
 
 app = Flask(__name__)
@@ -96,10 +99,7 @@ def recommend_web():
                 "Please enter your skills or learning interests."
             )
 
-        result = recommend_from_text(
-            text=text,
-            top_n=top_n,
-        )
+        result = run_workflow(text)
 
         return render_template(
             "index.html",
@@ -108,9 +108,7 @@ def recommend_web():
             top_n=top_n,
             extracted_skills=result["skills"],
             recommendations=result["recommendations"],
-            processing_time_ms=(
-                result["processing_time_ms"]
-            ),
+            processing_time_ms="Workflow",
         )
 
     except Exception as error:

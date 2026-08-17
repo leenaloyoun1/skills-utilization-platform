@@ -1,178 +1,314 @@
-# Skills Utilization Platform and Course Recommendation Engine
+# Skills Utilization Platform & Course Recommendation Engine
 
-An AI-powered course recommendation platform that recommends relevant courses based on a user's skills and learning interests.
+An AI-powered course recommendation platform that helps users discover relevant learning opportunities based on their skills and learning interests.
 
-## Project Goal
+The project combines:
 
-The project builds a recommendation pipeline that:
+- OpenAI-based skill extraction
+- Semantic embeddings
+- Similarity-based recommendations
+- PostgreSQL database integration
+- Flask web application
+- LangGraph workflow orchestration
+- AI agents, guardrails, and fallback logic
 
-1. Extracts skills from user input.
-2. Converts skills and course descriptions into embeddings.
-3. Creates a user-profile vector from the user's skill embeddings.
-4. Compares the user vector with course vectors using cosine similarity.
-5. Ranks courses and returns the Top N recommendations.
-6. Provides similarity scores and explanations for the results.
+---
 
-## Core Features
+# Features
 
-- Skill extraction from text or predefined input
-- Skill embedding generation
-- Course-description embedding generation
-- User-profile vector creation using average pooling
-- Semantic course matching using cosine similarity
-- Top N course recommendations
-- FastAPI endpoint at `POST /api/recommend`
-- Relational database integration using SQLAlchemy Core
-- Recommendation logging
-- Guardrails and fallback recommendations
-- LangChain tools and LangGraph workflow orchestration
+## Recommendation Engine
 
-## Technology Stack
+- Extract skills from free-form user text
+- Generate semantic embeddings
+- Build user profile vectors using average pooling
+- Compare users and courses using cosine similarity
+- Rank courses by relevance
+- Return Top-N recommendations
+
+## Database Integration
+
+- PostgreSQL database
+- SQLAlchemy Core
+- Users, Skills, Courses, UserSkills
+- Embeddings storage
+- Recommendation logs
+
+## AI & Workflow Features
+
+- Skill Extraction Agent
+- Validation Agent
+- Recommendation Agent
+- Fallback Agent
+- Logging Agent
+- LangGraph workflow orchestration
+- Guardrails and validation
+- Default recommendations for unsupported inputs
+
+## Interfaces
+
+### Flask Web Application
+
+```text
+http://127.0.0.1:5000
+```
+
+Users can:
+
+- Enter learning interests
+- Request recommendations
+- View extracted skills
+- View recommended courses
+
+### REST API
+
+```http
+POST /api/recommend
+```
+
+Supports:
+
+- Recommendation by user ID
+- Recommendation by free-form text
+
+### Command Line Interface
+
+```bash
+python cli.py
+```
+
+Interactive menu:
+
+```text
+1. Recommend by User ID
+2. Recommend by Text
+3. Exit
+```
+
+---
+
+# Technology Stack
+
+## Backend
 
 - Python 3.14
-- FastAPI
-- Uvicorn
+- Flask
 - SQLAlchemy Core
-- SQLite
+- PostgreSQL
+- Psycopg
+
+## AI & Machine Learning
+
+- OpenAI
 - Sentence Transformers
 - NumPy
-- scikit-learn
-- LangChain and LangGraph, added during the workflow stage
-- pytest
+- Scikit-Learn
 
-## Database Approach
+## Workflow & Agents
 
-This project uses SQLAlchemy Core only.
+- LangChain
+- LangGraph
 
-The database layer will use:
+## Testing
 
-- `Engine`
-- `Connection`
-- `MetaData`
-- `Table`
-- `Column`
-- `select()`
-- `insert()`
-- `update()`
-- `delete()`
+- Pytest
 
-The project does not use SQLAlchemy ORM models or ORM sessions.
+---
 
-## Database Tables
+# Architecture
 
-The database will contain:
+## Recommendation Pipeline
 
-- `users`
-- `skills`
-- `courses`
-- `user_skills`
-- `embeddings`
-- `recommendation_logs`
+```text
+User Input
+    ↓
+Skill Extraction
+    ↓
+Embedding Generation
+    ↓
+User Profile Vector
+    ↓
+Cosine Similarity
+    ↓
+Course Ranking
+    ↓
+Recommendations
+```
 
-## Project Structure
+---
+
+## Day 3 Workflow
+
+```text
+START
+  ↓
+Skill Extraction Agent
+  ↓
+Validation Agent
+  ↓
+Valid Skills?
+ /         \
+Yes         No
+ |           |
+ ↓           ↓
+Recommendation Agent
+             Fallback Agent
+        \   /
+         ↓
+     Logging Agent
+         ↓
+        END
+```
+
+---
+
+# Database Schema
+
+The project uses SQLAlchemy Core.
+
+Tables:
+
+- users
+- skills
+- courses
+- user_skills
+- embeddings
+- recommendation_logs
+
+---
+
+# Project Structure
 
 ```text
 project_5/
+│
 ├── app/
+│   ├── agents/
 │   ├── api/
 │   ├── core/
 │   ├── db/
 │   ├── repositories/
 │   ├── services/
-│   └── workflows/
+│   ├── static/
+│   ├── templates/
+│   ├── workflows/
+│   └── flask_app.py
+│
 ├── data/
 ├── scripts/
 ├── tests/
+│
+├── cli.py
 ├── .env.example
 ├── .gitignore
 ├── README.md
 └── requirements.txt
 ```
 
-## Setup Instructions
+---
 
-### 1. Clone the repository
+# Setup Instructions
+
+## 1. Clone the Repository
 
 ```bash
 git clone <repository-url>
 cd project_5
 ```
 
-### 2. Create a virtual environment
+## 2. Create Virtual Environment
 
 ```bash
 python3 -m venv .venv
 ```
 
-### 3. Activate the virtual environment
+## 3. Activate Environment
 
-On Linux or macOS:
+Linux/macOS:
 
 ```bash
 source .venv/bin/activate
 ```
 
-On Windows PowerShell:
+Windows:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 4. Install dependencies
+## 4. Install Dependencies
 
 ```bash
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-### 5. Configure environment variables
+## 5. Configure Environment Variables
 
-Copy `.env.example` to `.env`:
+Create:
 
 ```bash
 cp .env.example .env
 ```
 
-Add private API credentials to `.env` when required.
-
-Never commit `.env` or API keys to Git.
-
-## Environment Variables
+Update:
 
 ```env
-APP_NAME="Skills Utilization Platform"
-APP_ENV=development
-DEBUG=true
-
-DATABASE_URL=sqlite:///./skills_platform.db
-
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-DEFAULT_TOP_N=3
-
-OPENAI_API_KEY=
-LOG_LEVEL=INFO
+OPENAI_API_KEY=your_key_here
+DATABASE_URL=your_database_url
 ```
 
-## Recommendation Process
+---
 
-The recommendation pipeline will:
+# Database Initialization
 
-1. Receive a user ID or user text.
-2. Extract or retrieve the user's skills.
-3. Generate an embedding for every skill.
-4. Average the skill embeddings into a user-profile vector.
-5. Retrieve course embeddings.
-6. Calculate cosine similarity between the user and each course.
-7. Rank courses from highest to lowest similarity.
-8. Return the Top N courses with scores and explanations.
-9. Record the recommendation result in the database.
+Create tables:
 
-## API Endpoint
-
-```http
-POST /api/recommend
+```bash
+python -m scripts.create_database
 ```
 
-Example request using a user ID:
+Seed sample data:
+
+```bash
+python -m scripts.seed_database
+```
+
+Generate embeddings:
+
+```bash
+python -m scripts.seed_embeddings
+```
+
+---
+
+# Running the Application
+
+## Flask Web Application
+
+```bash
+flask --app app.flask_app run --debug
+```
+
+Open:
+
+```text
+http://127.0.0.1:5000
+```
+
+---
+
+## Command-Line Interface
+
+```bash
+python cli.py
+```
+
+---
+
+# API Usage
+
+## Recommendation by User ID
+
+Request:
 
 ```json
 {
@@ -181,95 +317,95 @@ Example request using a user ID:
 }
 ```
 
-Example request using text:
+---
+
+## Recommendation by Text
+
+Request:
 
 ```json
 {
-  "text": "I want to learn artificial intelligence and backend development",
+  "text": "I want to learn machine learning and NLP",
   "top_n": 3
 }
 ```
 
-Planned response format:
+---
+
+## Example Response
 
 ```json
 {
-  "user_id": 1,
   "extracted_skills": [
-    "Artificial Intelligence",
-    "Backend Development"
+    "Machine Learning",
+    "Natural Language Processing"
   ],
   "recommended_courses": [
     {
-      "course_id": 1,
-      "title": "Machine Learning Foundations",
-      "similarity_score": 0.91,
-      "explanation": "This course closely matches the user's artificial intelligence interests."
+      "title": "Natural Language Processing",
+      "similarity_score": 0.89
     }
   ]
 }
 ```
 
-## Testing
+---
 
-Tests will cover:
+# Testing
 
-- Skill extraction
-- Embedding generation
-- User-profile vector creation
-- Cosine-similarity ranking
-- Database queries
-- API requests and responses
-- Guardrails and fallback behavior
-
-Run tests with:
+Run all tests:
 
 ```bash
 pytest
 ```
 
-## Development Plan
+Run selected tests:
 
-### Day 1: Core AI Engine
+```bash
+python -m tests.test_workflow
+python -m tests.test_complete_workflow
+python -m tests.test_database_recommendations
+```
 
-- Skill extraction
-- Embedding generation
-- Average pooling
-- Cosine similarity
-- Top N recommendation function
+---
 
-### Day 2: Backend Integration
+# Security
 
-- SQLAlchemy Core schema
-- Sample users, skills, and courses
-- Database-connected recommendation pipeline
-- FastAPI recommendation endpoint
-- Testing and validation
+- API keys are stored in `.env`
+- `.env` is excluded from Git
+- `.env.example` contains placeholders only
+- No secrets should be committed to source control
 
-### Day 3: Advanced Extension
+---
 
-- LangChain tools and agents
-- LangGraph workflow orchestration
-- Guardrails
-- Fallback recommendations
-- Recommendation logging
+# Project Deliverables
 
-## Security
+✅ Embedding generation
 
-- API keys are stored only in `.env`.
-- `.env` is excluded from Git.
-- `.env.example` contains placeholders only.
-- API keys must never be written in source code, screenshots, commits, or documentation.
+✅ Recommendation engine
 
-## Project Status
+✅ PostgreSQL schema
 
-Day 1 core recommendation engine complete.
+✅ SQLAlchemy Core integration
 
-Implemented:
-- OpenAI-based skill extraction
-- Predefined skill-extraction fallback
-- Skill and course embeddings
-- Average-pooled user-profile vectors
-- Cosine-similarity ranking
-- Top N recommendations
-- Similarity scores and recommendation explanations
+✅ REST API
+
+✅ Flask web application
+
+✅ AI agents
+
+✅ LangGraph workflow
+
+✅ Guardrails
+
+✅ Fallback recommendations
+
+✅ Recommendation logging
+
+✅ Automated testing
+
+---
+
+# License
+
+This project was developed as part of the Practical Training Program and is intended for educational purposes.
